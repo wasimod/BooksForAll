@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="Wassim Odeh & Hanya Oukal">
+	<meta name="description" content="Books For All is an e-commerce web application that allows users to buy e-books, read them on their browser, and share their feedback with respect to books they have read.">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+	<title>Books For All - A Creative Books Store</title>
+		
+	<!-- Load external libraries (AngularJS, BootStrap, jQuery) -->
+	<!-- jQuery -->
+	<script src="lib/jquery/jquery.min.js" type="text/javascript"></script>
+	<!-- AngularJS -->
+	<script src="lib/angularjs/angular.min.js" type="text/javascript"></script>
+	<!-- BootStrap -->
+	<script src="lib/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+	
+	<!-- Style Sheets -->
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
+	<!-- Custom Style Sheets -->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body class="absolute-position" ng-app="booksForAll" ng-controller="mainController">
+	<div id="main-ui" class="container-fluid">
+		<div ng-include="templateUrl" ng-if="true"></div>
+	</div>
+
+	<!-- Animation modal -->
+	<div class="animation-modal"></div>
+				
+	<!-- Load application components -->
+	<script src="app/app.js" type="text/javascript"></script>
+	<script src="app/directives.js" type="text/javascript"></script>
+	<script src="app/filters.js" type="text/javascript"></script>
+	<script src="app/controllers.js" type="text/javascript"></script>
+	<script src="app/services.js" type="text/javascript"></script>
+	
+	<!-- Custom application scripts -->
+	<script src="assets/js/scripts.js" type="text/javascript"></script>
+</body>
+</html>
