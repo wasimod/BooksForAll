@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,18 +18,20 @@ import com.google.gson.GsonBuilder;
 import booksForAll.globals.Globals;
 import booksForAll.models.User;
 
+
 /**
- * Servlet implementation class Register
+ * Servlet implementation class Review
  */
-@WebServlet("/Register")
-public class Register extends HttpServlet {
+@WebServlet("/Review")
+public class Review extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Register() {
+    public Review() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -47,8 +48,7 @@ public class Register extends HttpServlet {
 		handleRequest(request, response);
 	}
 
-	/**
-	 * 	
+	/** 	
 	 * Handles an HTTP request.
 	 * Register a new User to the database.
 	 * <p>
@@ -64,19 +64,15 @@ public class Register extends HttpServlet {
 	 */
 	private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Gson gson = new GsonBuilder().create();
-		// Convert JSON object from request input to User object
-		User user = gson.fromJson(request.getReader(), User.class);
+		// Convert JSON object from request input to Review object
+		booksForAll.models.Review review = gson.fromJson(request.getReader(), booksForAll.models.Review.class);
 		// Prepare a JSON to be forwarded to a new servlet or returned in the response
 		PrintWriter out = response.getWriter();
 		response.setContentType("application/json; charset=UTF-8");
 		String data;
-		if (insert(user)) {
-			// Write user data to the response of type JSON
-			HttpSession session = request.getSession();
-			request.setAttribute("user", user);
-			session.setAttribute("user", user);
-			request.setAttribute("httpSession", session);
-			String jsonUser = gson.toJson(user, User.class);
+		if (insert(review)) {
+			// Write review data to the response of type JSON
+			String jsonReview = gson.toJson(review, booksForAll.models.Review.class);
 			data = "{"
 				+ 		"\"status\": \"success\","
 				+ 		"\"route\": \"messages\","
@@ -84,13 +80,11 @@ public class Register extends HttpServlet {
 				+ 			"\"selector\": \".register-notification\","
 				+ 			"\"message\": \"Registered successfully\""
 				+ 		"},"
-				+ 		"\"user\": "
-				+			 jsonUser
+				+ 		"\"review\": "
+				+			 jsonReview
 				;
 	
 			request.setAttribute("data", data + ",");
-			session.setAttribute("data", data + ",");
-			request.getRequestDispatcher("/messages").forward(request, response);
 			data += "}";
 		} else {
 			data = "{"
@@ -106,29 +100,24 @@ public class Register extends HttpServlet {
 		out.println(data);
 		out.close();
 	}
-	
+	 
 	/**
-	 * A method to insert the new user to the database.
-	 * @param user {@link booksForAll.models.User} object that contain the new user data.
-	 * @return True in case the user inserted successfully, False otherwise.
+	 * A method to insert the new review to the database.
+	 * @param review {@link booksForAll.models.review} object that contain the new review data.
+	 * @return True in case the review inserted successfully, False otherwise.
 	 */
-	private boolean insert (User user) {
+	private boolean insert (booksForAll.models.Review review) {
 		int rows = 0;
 		
 		try {
 			Connection connection = Globals.database.getConnection();
-			PreparedStatement statement = connection.prepareStatement(Globals.INSERT_USER);
+			PreparedStatement statement = connection.prepareStatement(Globals.INSERT_REVIEW);
 			
-			statement.setString(1, user.getUserName());
-			statement.setString(2, user.getPassword());
-			statement.setBoolean(3, user.getIsAdmin());
-			statement.setString(4, user.getNickName());
-			statement.setString(5,user.getEmail());
-			statement.setString(6,user.getTelephone());
-			statement.setString(7,user.getAddress());
-			statement.setString(8, user.getDescription());
-			statement.setString(9, user.getPhotoUrl());
-			statement.setBoolean(10, user.getStatus());
+			statement.setString(1, review.getUserName());
+			statement.setString(2, review.getBookIsbn());
+			statement.setString(3, review.getText());
+			statement.setDate(4, review.getWriteDate());
+			statement.setBoolean(5,review.getApproved());
 			
 			rows = statement.executeUpdate();
 			connection.commit();
