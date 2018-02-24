@@ -19,7 +19,7 @@ booksForAll.controller('mainController', ['$scope', '$rootScope', '$location', '
 
 	$scope.login = function () {
 		var user = {
-			"username": $scope.username,
+			"userName": $scope.username,
 			"password": $scope.password
 		};
 
