@@ -2,6 +2,9 @@ package booksForAll.controllers.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -63,7 +66,7 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Gson gson = new GsonBuilder().setDateFormat("MMM dd,yyyy HH:mm:ss").create();
+		Gson gson = new GsonBuilder().create();
 		// Convert JSON object from request input to User object
 		User user = gson.fromJson(request.getReader(), User.class);
 		// Connect to database
@@ -125,21 +128,23 @@ public class Login extends HttpServlet {
 			Connection connection = Globals.database.getConnection();
 			PreparedStatement statement = connection.prepareStatement(Globals.SELECT_USER_BY_USERNAME_AND_PASSWORD);
 			
-			statement.setString(1, user.username());
-			statement.setString(2, user.password());
+			statement.setString(1, user.getUserName());
+			statement.setString(2, user.getPassword());
 			
 			ResultSet resultSet = statement.executeQuery();
 			
 			// The user exists in our system, get his data
 			if (resultSet.next()) {
 				User registered = new User();
-				registered.username(resultSet.getString("USERNAME"));
-				registered.password(resultSet.getString("PASSWORD"));
-				registered.description(resultSet.getString("DESCRIPTION"));
-				registered.nickName(resultSet.getString("NICKNAME"));
-				registered.photoUrl(resultSet.getString("PHOTO_URL"));
-				registered.status(resultSet.getString("STATUS"));
-				registered.lastSeen(resultSet.getTimestamp("LAST_SEEN"));
+				registered.setUserName(resultSet.getString("USERNAME"));
+				registered.setPassword(resultSet.getString("PASSWORD"));
+				registered.setDescription(resultSet.getString("DESCRIPTION"));
+				registered.setNickName(resultSet.getString("NICKNAME"));
+				registered.setPhotoUrl(resultSet.getString("PHOTO_URL"));
+				registered.setStatus(resultSet.getBoolean("STATUS"));
+				registered.setIsAdmin(resultSet.getBoolean("IS_ADMIN"));
+				registered.setEmail(resultSet.getString("EMAIL"));
+				registered.setTelephone(resultSet.getString("TELEPHONE"));
 				
 				statement.close();
 				connection.close();
@@ -163,15 +168,14 @@ public class Login extends HttpServlet {
 	private void updateUserStatus (HttpSession session) {
 		User user = (User)session.getAttribute("user");
 		
-		String status = "active";
-		Timestamp last_seen = new Timestamp(System.currentTimeMillis());
+		boolean status = true;
+		
 		try {
 			Connection connection = Globals.database.getConnection();
 			PreparedStatement statement = connection.prepareStatement(Globals.UPDATE_USER_STATUS);
 			
-			statement.setString(1, status);
-			statement.setTimestamp(2, last_seen);
-			statement.setString(3, user.username());
+			statement.setBoolean(1, status);
+			statement.setString(2, user.getUserName());
 			statement.executeUpdate();
 			
 			connection.commit();
