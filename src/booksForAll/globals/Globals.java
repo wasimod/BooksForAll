@@ -34,7 +34,8 @@ public class Globals {
 	/**
 	 * PURCHASE Table predefined statement.
 	 */
-	public static final String INSERT_PURCHASE = "INSERT INTO PURCHASES (USERNAME, BOOK_ISBN) VALUES (?,?)";
+	public static final String INSERT_PURCHASE = "INSERT INTO PURCHASES (USERNAME, BOOK_ISBN) VALUES (?,?)",
+			SELECT_PURCHASES_BY_USERNAME = "SELECT * FROM PURCHASES WHERE USERNAME=?";
 	
 	/**
 	 * LIKE Table predefined statement.
@@ -42,4 +43,9 @@ public class Globals {
 	public static final String INSERT_LIKE = "INSERT INTO LIKES (USERNAME, BOOK_ISBN) VALUES (?,?)",
 			DELETE_LIKE = "DELETE FROM LIKES WHERE USERNAME=? AND BOOK_ISBN=?",
 			SELECT_LIKES_FOR_BOOK = "SELECT * FROM LIKES WHERE BOOK_ISBN=?";
+	
+	/**
+	 * BOOK Table predefined statement.
+	 */
+	public static final String SELECT_BOOK_BY_ISBN = "SELECT * FROM BOOKS WHERE ISBN=?";
 }
