@@ -14,6 +14,15 @@ public class User {
 	
 	public User() {}
 	
+	public User (String username) {
+		this.userName = username;
+	}
+	
+	public User (String username, String password) {
+		this.userName = username;
+		this.password = password;
+	}
+	
 	public User(String userName,String password,String NickName,String email,String telephone,String address,String description,String photoUrl) {
 		this.userName=userName;
 		this.password = password;
@@ -118,5 +127,9 @@ public class User {
 	
 	public void setStatus(boolean status) {
 		this.status=status;
+	}
+	
+	public boolean isEmpty () {
+		return this.userName == null && this.NickName == null;
 	}
 }

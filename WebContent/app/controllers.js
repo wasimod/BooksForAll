@@ -67,12 +67,14 @@ booksForAll.controller('mainController', ['$scope', '$rootScope', '$location', '
 
 	$scope.register = function () {
 		var user = {
-			"username": $scope.username,
+			"userName": $scope.username,
 			"password": $scope.password,
-			"nickName": $scope.nickname,
+			"NickName": $scope.nickname,
 			"description": $scope.description,
 			"photoUrl": $scope.photoUrl !== undefined ? $scope.photoUrl : "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSMyKQ_ZaKgbgQ6PE--NyftpawhbFDuv0lIZAslbH_o5QVS3KY9wHo87AqxyQ",
-			"status" : true
+			"address": "Kafr Kanna",
+			"email": "a.hakrush@gmail.com",
+			"telephone": "0526932415"
 		};
 
 		$http({
@@ -92,7 +94,7 @@ booksForAll.controller('mainController', ['$scope', '$rootScope', '$location', '
 					$timeout(function () {
 						$(".modal-backdrop").css({display: 'none'});
 						$rootScope.route = data.route;
-						$rootScope.user = data.user;	
+						$rootScope.user = data.user;
 					}, 2500);
 				}
 			},
@@ -108,7 +110,7 @@ booksForAll.controller('mainController', ['$scope', '$rootScope', '$location', '
 				method: 'POST',
 				url: 'validate',
 				headers: {'Content-Type' : "application/json; charset=utf-8"},
-				data: {"username": $scope.username}
+				data: {"userName": $scope.username}
 			}).then(
 				function (success) {
 					$scope.validUsername = "glyphicon glyphicon-" + success.data.valid + "-circle";
@@ -129,7 +131,7 @@ booksForAll.controller('mainController', ['$scope', '$rootScope', '$location', '
 				method: 'POST',
 				url: 'validate',
 				headers: {'Content-Type' : "application/json; charset=utf-8"},
-				data: {"nickName": $scope.nickname}
+				data: {"NickName": $scope.nickname}
 			}).then(
 				function (success) {
 					$scope.validNickname = "glyphicon glyphicon-" + success.data.valid + "-circle";
