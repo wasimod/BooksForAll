@@ -16,20 +16,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import booksForAll.globals.Globals;
-import booksForAll.models.User;
-
 
 /**
- * Servlet implementation class Review
+ * Servlet implementation class Purchase
  */
-@WebServlet("/Review")
-public class Review extends HttpServlet {
+@WebServlet("/Purchase")
+public class Purchase extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Review() {
+    public Purchase() {
         super();
     }
 
@@ -49,11 +47,11 @@ public class Review extends HttpServlet {
 
 	/** 	
 	 * Handles an HTTP request.
-	 * Register a new User to the database.
+	 * Add new Purchased book to the database.
 	 * <p>
 	 * <b>Used methods:</b>
 	 * <br/>
-	 * <dd>{@link #insert(User)} - Insert the new user to the database.</dd>
+	 * <dd>{@link #insert(Purchase)} - Insert the new Purchase to the database.</dd>
 	 * @param request Http request
 	 * @param response Http response
 	 * @throws ServletException
@@ -64,14 +62,14 @@ public class Review extends HttpServlet {
 	private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Gson gson = new GsonBuilder().create();
 		// Convert JSON object from request input to Review object
-		booksForAll.models.Review review = gson.fromJson(request.getReader(), booksForAll.models.Review.class);
+		booksForAll.models.Purchase purchase = gson.fromJson(request.getReader(), booksForAll.models.Purchase.class);
 		// Prepare a JSON to be forwarded to a new servlet or returned in the response
 		PrintWriter out = response.getWriter();
 		response.setContentType("application/json; charset=UTF-8");
 		String data;
-		if (insert(review)) {
-			// Write review data to the response of type JSON
-			String jsonReview = gson.toJson(review, booksForAll.models.Review.class);
+		if (insert(purchase)) {
+			// Write purchase data to the response of type JSON
+			String jsonPurchase = gson.toJson(purchase, booksForAll.models.Purchase.class);
 			data = "{"
 				+ 		"\"status\": \"success\","
 				+ 		"\"route\": \"messages\","
@@ -79,8 +77,8 @@ public class Review extends HttpServlet {
 				+ 			"\"selector\": \".register-notification\","
 				+ 			"\"message\": \"Registered successfully\""
 				+ 		"},"
-				+ 		"\"review\": "
-				+			 jsonReview
+				+ 		"\"purchase\": "
+				+			 jsonPurchase
 				;
 	
 			request.setAttribute("data", data + ",");
@@ -105,18 +103,15 @@ public class Review extends HttpServlet {
 	 * @param review {@link booksForAll.models.review} object that contain the new review data.
 	 * @return True in case the review inserted successfully, False otherwise.
 	 */
-	private boolean insert (booksForAll.models.Review review) {
+	private boolean insert (booksForAll.models.Purchase purchase) {
 		int rows = 0;
 		
 		try {
 			Connection connection = Globals.database.getConnection();
-			PreparedStatement statement = connection.prepareStatement(Globals.INSERT_REVIEW);
+			PreparedStatement statement = connection.prepareStatement(Globals.INSERT_PURCHASE);
 			
-			statement.setString(1, review.getUserName());
-			statement.setString(2, review.getBookIsbn());
-			statement.setString(3, review.getText());
-			statement.setDate(4, review.getWriteDate());
-			statement.setBoolean(5,review.getApproved());
+			statement.setString(1, purchase.getUserName());
+			statement.setString(2, purchase.getBookIsbn());
 			
 			rows = statement.executeUpdate();
 			connection.commit();

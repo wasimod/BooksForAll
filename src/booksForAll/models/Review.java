@@ -10,6 +10,8 @@ public class Review {
 	private Date writeDate;
 	private boolean approved;
 	
+	public Review () {}
+	
 	public Review(String userName, String bookIsbn,String text,Date writeDate) {
 		this.id = 0;
 		this.userName = userName;

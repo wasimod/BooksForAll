@@ -16,20 +16,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import booksForAll.globals.Globals;
-import booksForAll.models.User;
-
 
 /**
- * Servlet implementation class Review
+ * Servlet implementation class Like
  */
-@WebServlet("/Review")
-public class Review extends HttpServlet {
+@WebServlet("/Like")
+public class Like extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Review() {
+    public Like() {
         super();
     }
 
@@ -49,11 +47,11 @@ public class Review extends HttpServlet {
 
 	/** 	
 	 * Handles an HTTP request.
-	 * Register a new User to the database.
+	 * add like to the database.
 	 * <p>
 	 * <b>Used methods:</b>
 	 * <br/>
-	 * <dd>{@link #insert(User)} - Insert the new user to the database.</dd>
+	 * <dd>{@link #insert(like)} - Insert the like to the database.</dd>
 	 * @param request Http request
 	 * @param response Http response
 	 * @throws ServletException
@@ -64,14 +62,14 @@ public class Review extends HttpServlet {
 	private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Gson gson = new GsonBuilder().create();
 		// Convert JSON object from request input to Review object
-		booksForAll.models.Review review = gson.fromJson(request.getReader(), booksForAll.models.Review.class);
+		booksForAll.models.Like like = gson.fromJson(request.getReader(), booksForAll.models.Like.class);
 		// Prepare a JSON to be forwarded to a new servlet or returned in the response
 		PrintWriter out = response.getWriter();
 		response.setContentType("application/json; charset=UTF-8");
 		String data;
-		if (insert(review)) {
-			// Write review data to the response of type JSON
-			String jsonReview = gson.toJson(review, booksForAll.models.Review.class);
+		if (insert(like)) {
+			// Write like data to the response of type JSON
+			String jsonLike = gson.toJson(like, booksForAll.models.Like.class);
 			data = "{"
 				+ 		"\"status\": \"success\","
 				+ 		"\"route\": \"messages\","
@@ -80,7 +78,7 @@ public class Review extends HttpServlet {
 				+ 			"\"message\": \"Registered successfully\""
 				+ 		"},"
 				+ 		"\"review\": "
-				+			 jsonReview
+				+			 jsonLike
 				;
 	
 			request.setAttribute("data", data + ",");
@@ -101,22 +99,19 @@ public class Review extends HttpServlet {
 	}
 	 
 	/**
-	 * A method to insert the new review to the database.
-	 * @param review {@link booksForAll.models.review} object that contain the new review data.
-	 * @return True in case the review inserted successfully, False otherwise.
+	 * A method to insert the new like to the database.
+	 * @param review {@link booksForAll.models.Like} object that contain the new like data.
+	 * @return True in case the like inserted successfully, False otherwise.
 	 */
-	private boolean insert (booksForAll.models.Review review) {
+	private boolean insert (booksForAll.models.Like like) {
 		int rows = 0;
 		
 		try {
 			Connection connection = Globals.database.getConnection();
-			PreparedStatement statement = connection.prepareStatement(Globals.INSERT_REVIEW);
+			PreparedStatement statement = connection.prepareStatement(Globals.INSERT_LIKE);
 			
-			statement.setString(1, review.getUserName());
-			statement.setString(2, review.getBookIsbn());
-			statement.setString(3, review.getText());
-			statement.setDate(4, review.getWriteDate());
-			statement.setBoolean(5,review.getApproved());
+			statement.setString(1, like.getUserName());
+			statement.setString(2, like.getBookIsbn());
 			
 			rows = statement.executeUpdate();
 			connection.commit();

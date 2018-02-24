@@ -72,6 +72,13 @@ public class Startup implements ServletContextListener {
 					"APPROVED 	BOOLEAN NOT NULL" + 
 				")"
 			);
+			
+			statement.executeUpdate("CREATE TABLE PURCHASES (" + 
+					"ID			INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) PRIMARY KEY," + 
+					"USERNAME	VARCHAR(10) NOT NULL REFERENCES USERS(USERNAME) ON DELETE CASCADE," + 
+					"BOOK_ISBN 	VARCHAR(30) NOT NULL REFERENCES BOOKS(ISBN) ON DELETE CASCADE" + 
+				")"
+			);
 
 			connection.commit();
 			statement.close();
