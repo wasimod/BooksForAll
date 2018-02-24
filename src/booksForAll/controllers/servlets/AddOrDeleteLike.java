@@ -16,18 +16,19 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import booksForAll.globals.Globals;
+import booksForAll.models.Like;
 
 /**
  * Servlet implementation class Like
  */
 @WebServlet("/like")
-public class Like extends HttpServlet {
+public class AddOrDeleteLike extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Like() {
+    public AddOrDeleteLike() {
         super();
     }
 
@@ -62,14 +63,14 @@ public class Like extends HttpServlet {
 	private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Gson gson = new GsonBuilder().create();
 		// Convert JSON object from request input to Review object
-		booksForAll.models.Like like = gson.fromJson(request.getReader(), booksForAll.models.Like.class);
+		Like like = gson.fromJson(request.getReader(), Like.class);
 		// Prepare a JSON to be forwarded to a new servlet or returned in the response
 		PrintWriter out = response.getWriter();
 		response.setContentType("application/json; charset=UTF-8");
 		String data;
 		if (insert(like)) {
 			// Write like data to the response of type JSON
-			String jsonLike = gson.toJson(like, booksForAll.models.Like.class);
+			String jsonLike = gson.toJson(like, Like.class);
 			data = "{"
 				+ 		"\"status\": \"success\","
 				+ 		"\"route\": \"messages\","
@@ -100,15 +101,42 @@ public class Like extends HttpServlet {
 	 
 	/**
 	 * A method to insert the new like to the database.
-	 * @param review {@link booksForAll.models.Like} object that contain the new like data.
+	 * @param like {@link booksForAll.models.Like} object that contain the new like data.
 	 * @return True in case the like inserted successfully, False otherwise.
 	 */
-	private boolean insert (booksForAll.models.Like like) {
+	private boolean insert (Like like) {
 		int rows = 0;
 		
 		try {
 			Connection connection = Globals.database.getConnection();
 			PreparedStatement statement = connection.prepareStatement(Globals.INSERT_LIKE);
+			
+			statement.setString(1, like.getUserName());
+			statement.setString(2, like.getBookIsbn());
+			
+			rows = statement.executeUpdate();
+			connection.commit();
+			statement.close();
+			connection.close();
+			
+		} catch (SQLException e) {
+			System.out.println("An error has occured while trying to execute the query!");
+		}
+		
+		return rows > 0;
+	}
+	
+	/**
+	 * A method to delete a like from the database.
+	 * @param like {@link booksForAll.models.Like} object that contain the like we wanna delete data.
+	 * @return True in case the like inserted successfully, False otherwise.
+	 */
+	private boolean remove (Like like) {
+		int rows = 0;
+		
+		try {
+			Connection connection = Globals.database.getConnection();
+			PreparedStatement statement = connection.prepareStatement(Globals.DELETE_LIKE);
 			
 			statement.setString(1, like.getUserName());
 			statement.setString(2, like.getBookIsbn());

@@ -16,18 +16,19 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import booksForAll.globals.Globals;
+import booksForAll.models.Purchase;
 
 /**
  * Servlet implementation class Purchase
  */
 @WebServlet("/purchase")
-public class Purchase extends HttpServlet {
+public class AddPurchase extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Purchase() {
+    public AddPurchase() {
         super();
     }
 
@@ -62,14 +63,14 @@ public class Purchase extends HttpServlet {
 	private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Gson gson = new GsonBuilder().create();
 		// Convert JSON object from request input to Review object
-		booksForAll.models.Purchase purchase = gson.fromJson(request.getReader(), booksForAll.models.Purchase.class);
+		Purchase purchase = gson.fromJson(request.getReader(), Purchase.class);
 		// Prepare a JSON to be forwarded to a new servlet or returned in the response
 		PrintWriter out = response.getWriter();
 		response.setContentType("application/json; charset=UTF-8");
 		String data;
 		if (insert(purchase)) {
 			// Write purchase data to the response of type JSON
-			String jsonPurchase = gson.toJson(purchase, booksForAll.models.Purchase.class);
+			String jsonPurchase = gson.toJson(purchase, Purchase.class);
 			data = "{"
 				+ 		"\"status\": \"success\","
 				+ 		"\"route\": \"messages\","
@@ -103,7 +104,7 @@ public class Purchase extends HttpServlet {
 	 * @param review {@link booksForAll.models.review} object that contain the new review data.
 	 * @return True in case the review inserted successfully, False otherwise.
 	 */
-	private boolean insert (booksForAll.models.Purchase purchase) {
+	private boolean insert (Purchase purchase) {
 		int rows = 0;
 		
 		try {
