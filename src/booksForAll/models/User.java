@@ -14,6 +14,19 @@ public class User {
 	
 	public User() {}
 	
+	public User(String userName,String password,String NickName,String email,String telephone,String address,String description,String photoUrl) {
+		this.userName=userName;
+		this.password = password;
+		this.isAdmin=false;
+		this.NickName=NickName;
+		this.email=email;
+		this.telephone=telephone;
+		this.address=address;
+		this.description=description;
+		this.photoUrl=photoUrl;
+		this.status=true;
+	}
+	
 	public User(String userName,String password,boolean isAdmin,String NickName,String email,String telephone,String address,String description,String photoUrl,boolean status) {
 		this.userName=userName;
 		this.password = password;
