@@ -17,21 +17,21 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import booksForAll.globals.Globals;
-import booksForAll.models.User;
+import booksForAll.models.Book;
+import booksForAll.models.Review;
 
 /**
- * Servlet implementation class GetAllUsers
+ * Servlet implementation class GetAllBookReviews
  */
-@WebServlet("/GetAllUsers")
-public class GetAllUsers extends HttpServlet {
+@WebServlet("/getallbookreviews")
+public class GetAllBookReviews extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetAllUsers() {
+    public GetAllBookReviews() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -51,7 +51,7 @@ public class GetAllUsers extends HttpServlet {
 	/**
 	 * 	
 	 * Handles an HTTP request.
-	 * Gets all Users Details from the database and send it to the client.
+	 * Gets all the Approved Reviews for a Book from the database and send it to the client.
 	 * <p>
 	 * <b>Used methods:</b>
 	 * <br/>
@@ -65,14 +65,19 @@ public class GetAllUsers extends HttpServlet {
 	 */
 	protected void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Gson gson = new GsonBuilder().create();
+		// Convert JSON object from request input to Book object
+		Book book = gson.fromJson(request.getReader(), Book.class);
+		// Prepare a JSON to be forwarded to a new servlet or returned in the response
 		response.setContentType("application/json; charset=UTF-8");
 		
 		String data = "[";
 		
 		try {
 			Connection connection = Globals.database.getConnection();
-			PreparedStatement statement = connection.prepareStatement(Globals.SELECT_ALL_USERS);
+			PreparedStatement statement = connection.prepareStatement(Globals.SELECT_REVIEWS_FOR_BOOK);
 			
+			statement.setString(1, book.getIsbn());
+			statement.setBoolean(2, true);
 			ResultSet resultSet = statement.executeQuery();
 			
 			int i = 1;
@@ -81,28 +86,25 @@ public class GetAllUsers extends HttpServlet {
 			resultSet.beforeFirst();
 			
 			while (resultSet.next()) {
-				User tempUser = new User();
-				tempUser.setUserName(resultSet.getString("USERNAME"));
-				tempUser.setPassword(resultSet.getString("PASSWORD"));
-				tempUser.setIsAdmin(resultSet.getBoolean("IS_ADMIN"));
-				tempUser.setNickName(resultSet.getString("NICKNAME"));
-				tempUser.setDescription(resultSet.getString("DESCRIPTION"));
-				tempUser.setStatus(resultSet.getBoolean("STATUS"));
-				tempUser.setAddress(resultSet.getString("ADDRESS"));
-				tempUser.setEmail(resultSet.getString("EMAIL"));
-				tempUser.setTelephone(resultSet.getString("TELEPHONE"));
-				tempUser.setPhotoUrl(resultSet.getString("PHOTO_URL"));
+				Review tempReview = new Review();
+				tempReview.setId(resultSet.getInt("ID"));
+				tempReview.setUserName(resultSet.getString("USERNAME"));
+				tempReview.setBookIsbn(resultSet.getString("BOOK_ISBN"));
+				tempReview.setText(resultSet.getString("TEXT"));
+				tempReview.setWriteDate(resultSet.getDate("WRITE_DATE"));
+				tempReview.setApproved(resultSet.getBoolean("APPROVED"));
+
 				// Retrieve sender data
 			
-				String jsonUser = gson.toJson(tempUser, User.class);
-				data += i++ < rows ? jsonUser + "," : jsonUser;
+				String jsonReview = gson.toJson(tempReview, Review.class);
+				data += i++ < rows ? jsonReview + "," : jsonReview;
 			}
 			
 			statement.close();
 			connection.close();
 			
 		} catch (SQLException e) {
-			System.out.println("An unknown error has occurred while trying to retrieve Users details from the database.");
+			System.out.println("An unknown error has occurred while trying to retrieve Approved Reviews for a Book from the database.");
 		}
 		
 		data += "]";

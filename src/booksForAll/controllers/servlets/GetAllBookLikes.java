@@ -17,21 +17,21 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import booksForAll.globals.Globals;
-import booksForAll.models.User;
+import booksForAll.models.Book;
+import booksForAll.models.Like;
 
 /**
- * Servlet implementation class GetAllUsers
+ * Servlet implementation class GetAllLikesForBook
  */
-@WebServlet("/GetAllUsers")
-public class GetAllUsers extends HttpServlet {
+@WebServlet("/getallbooklikes")
+public class GetAllBookLikes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetAllUsers() {
+    public GetAllBookLikes() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -51,7 +51,7 @@ public class GetAllUsers extends HttpServlet {
 	/**
 	 * 	
 	 * Handles an HTTP request.
-	 * Gets all Users Details from the database and send it to the client.
+	 * Gets all the Likes for a Book from the database and send it to the client.
 	 * <p>
 	 * <b>Used methods:</b>
 	 * <br/>
@@ -65,14 +65,18 @@ public class GetAllUsers extends HttpServlet {
 	 */
 	protected void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Gson gson = new GsonBuilder().create();
+		// Convert JSON object from request input to Book object
+		Book book = gson.fromJson(request.getReader(), Book.class);
+		// Prepare a JSON to be forwarded to a new servlet or returned in the response
 		response.setContentType("application/json; charset=UTF-8");
 		
 		String data = "[";
 		
 		try {
 			Connection connection = Globals.database.getConnection();
-			PreparedStatement statement = connection.prepareStatement(Globals.SELECT_ALL_USERS);
+			PreparedStatement statement = connection.prepareStatement(Globals.SELECT_LIKES_FOR_BOOK);
 			
+			statement.setString(1, book.getIsbn());			
 			ResultSet resultSet = statement.executeQuery();
 			
 			int i = 1;
@@ -81,28 +85,22 @@ public class GetAllUsers extends HttpServlet {
 			resultSet.beforeFirst();
 			
 			while (resultSet.next()) {
-				User tempUser = new User();
-				tempUser.setUserName(resultSet.getString("USERNAME"));
-				tempUser.setPassword(resultSet.getString("PASSWORD"));
-				tempUser.setIsAdmin(resultSet.getBoolean("IS_ADMIN"));
-				tempUser.setNickName(resultSet.getString("NICKNAME"));
-				tempUser.setDescription(resultSet.getString("DESCRIPTION"));
-				tempUser.setStatus(resultSet.getBoolean("STATUS"));
-				tempUser.setAddress(resultSet.getString("ADDRESS"));
-				tempUser.setEmail(resultSet.getString("EMAIL"));
-				tempUser.setTelephone(resultSet.getString("TELEPHONE"));
-				tempUser.setPhotoUrl(resultSet.getString("PHOTO_URL"));
+				Like tempLike = new Like();
+				tempLike.setId(resultSet.getInt("ID"));
+				tempLike.setUserName(resultSet.getString("USERNAME"));
+				tempLike.setBookIsbn(resultSet.getString("BOOK_ISBN"));
+
 				// Retrieve sender data
 			
-				String jsonUser = gson.toJson(tempUser, User.class);
-				data += i++ < rows ? jsonUser + "," : jsonUser;
+				String jsonLike = gson.toJson(tempLike, Like.class);
+				data += i++ < rows ? jsonLike + "," : jsonLike;
 			}
 			
 			statement.close();
 			connection.close();
 			
 		} catch (SQLException e) {
-			System.out.println("An unknown error has occurred while trying to retrieve Users details from the database.");
+			System.out.println("An unknown error has occurred while trying to retrieve Likes for a Book from the database.");
 		}
 		
 		data += "]";
