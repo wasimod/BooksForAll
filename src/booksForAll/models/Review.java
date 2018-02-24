@@ -1,6 +1,6 @@
 package booksForAll.models;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Review {
 	private int id;
@@ -9,6 +9,15 @@ public class Review {
 	private String text;
 	private Date writeDate;
 	private boolean approved;
+	
+	public Review(String userName, String bookIsbn,String text,Date writeDate) {
+		this.id = 0;
+		this.userName = userName;
+		this.bookIsbn = bookIsbn;
+		this.text=text;
+		this.writeDate=writeDate;
+		this.approved=false;
+	}
 	
 	public Review(int id, String userName, String bookIsbn,String text,Date writeDate,boolean approved) {
 		this.id = id;
@@ -41,5 +50,9 @@ public class Review {
 	
 	public boolean getApproved() {
 		return approved;
+	}
+	
+	public void setApproved(boolean approved) {
+		this.approved=approved;
 	}
 }

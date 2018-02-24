@@ -109,7 +109,7 @@ public class Register extends HttpServlet {
 	
 	/**
 	 * A method to insert the new user to the database.
-	 * @param user {@link booksForAll.model.User} object that contain the new user data.
+	 * @param user {@link booksForAll.models.User} object that contain the new user data.
 	 * @return True in case the user inserted successfully, False otherwise.
 	 */
 	private boolean insert (User user) {
