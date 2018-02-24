@@ -19,7 +19,7 @@ import booksForAll.models.User;
 /**
  * Servlet implementation class Logout
  */
-@WebServlet("/Logout")
+@WebServlet("/logout")
 public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -27,8 +27,7 @@ public class Logout extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
 	public Logout() {
-        super();
-        // TODO Auto-generated constructor stub
+        super();  
     }
 
 	/**
@@ -47,11 +46,11 @@ public class Logout extends HttpServlet {
 	/**
 	 * 	
 	 * Handles an HTTP request.
-	 * Log the user out and update his status to "away".
+	 * Log the user out and update his status to false.
 	 * <p>
 	 * <b>Used methods:</b>
 	 * <br/>
-	 * <dd>{@link #updateUserStatus(HttpSession)} - update the user status to Away (Offline).</dd>
+	 * <dd>{@link #updateUserStatus(HttpSession)} - update the user status to false (Offline).</dd>
 	 * @param request Http request
 	 * @param response Http response
 	 * @throws ServletException
@@ -79,21 +78,20 @@ public class Logout extends HttpServlet {
 		out.close();
 	}
 	/**
-	 * Updates the user's status to "away", and updates the last seen time of the user
-	 * when he logs out.
+	 * Updates the user's status to false (offline) when he logs out.
 	 * <p>
 	 * @param session The current HTTP session.
 	 */
 	private void updateUserStatus (HttpSession session) {
 		User user = (User)session.getAttribute("user");		
-		String status = "false";
+		boolean status = false;
 		
 		try {
 			Connection connection = Globals.database.getConnection();
 			PreparedStatement statement = connection.prepareStatement(Globals.UPDATE_USER_STATUS);
 			
-			statement.setString(1, status);
-			statement.setString(2, user.getNickName());
+			statement.setBoolean(1, status);
+			statement.setString(2, user.getUserName());
 			
 			statement.executeUpdate();
 			connection.commit();

@@ -22,14 +22,14 @@ import booksForAll.models.User;
 /**
  * Servlet implementation class Review
  */
-@WebServlet("/Review")
-public class Review extends HttpServlet {
+@WebServlet("/review")
+public class AddReview extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Review() {
+    public AddReview() {
         super();
     }
 

@@ -33,7 +33,6 @@ public class Validate extends HttpServlet {
      */
     public Validate() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -52,15 +51,13 @@ public class Validate extends HttpServlet {
 	/**
 	 * 	
 	 * Handles an HTTP request.
-	 * Validate user name/nickname or channel name availability.
+	 * Validate user name/nickname availability.
 	 * <p>
 	 * <b>Used methods:</b>
 	 * <br/>
 	 * <dd>{@link #checkUsernames(String)} - Check if the required user name is Available.</dd>
 	 * <br/>
 	 * <dd>{@link #checkNicknames(String)} - Check if the required nickname is Available.</dd>
-	 * <br/>
-	 * <dd>{@link #checkChannels(String)} - Check if the required Channel name is Available.</dd>
 	 * @param request Http request
 	 * @param response Http response
 	 * @throws ServletException

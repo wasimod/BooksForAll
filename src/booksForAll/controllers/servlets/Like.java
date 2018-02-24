@@ -20,7 +20,7 @@ import booksForAll.globals.Globals;
 /**
  * Servlet implementation class Like
  */
-@WebServlet("/Like")
+@WebServlet("/like")
 public class Like extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

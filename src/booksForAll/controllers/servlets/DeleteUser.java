@@ -21,7 +21,7 @@ import booksForAll.models.User;
 /**
  * Servlet implementation class DeleteUser
  */
-@WebServlet("/DeleteUser")
+@WebServlet("/deleteuser")
 public class DeleteUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

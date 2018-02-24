@@ -20,7 +20,7 @@ import booksForAll.globals.Globals;
 /**
  * Servlet implementation class Purchase
  */
-@WebServlet("/Purchase")
+@WebServlet("/purchase")
 public class Purchase extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

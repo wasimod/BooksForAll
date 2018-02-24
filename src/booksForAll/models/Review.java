@@ -34,20 +34,40 @@ public class Review {
 		return id;
 	}
 
+	public void setId(int id) {
+		this.id=id;
+	}
+	
 	public String getUserName() {
 		return userName;
 	}
 
+	public void setUserName(String userName) {
+		this.userName=userName;
+	}
+	
 	public String getBookIsbn() {
 		return bookIsbn;
+	}
+	
+	public void setBookIsbn(String bookIsbn) {
+		this.bookIsbn=bookIsbn;
 	}
 	
 	public String getText() {
 		return text;
 	}
 	
+	public void setText(String text) {
+		this.text=text;
+	}
+	
 	public Date getWriteDate() {
 		return writeDate;
+	}
+	
+	public void setWriteDate(Date writeDate) {
+		this.writeDate=writeDate;
 	}
 	
 	public boolean getApproved() {

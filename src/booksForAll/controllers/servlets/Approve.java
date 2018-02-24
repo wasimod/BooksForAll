@@ -12,25 +12,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import booksForAll.globals.Globals;
-import booksForAll.models.User;
+import booksForAll.models.Review;
 
 /**
- * Servlet implementation class Login
+ * Servlet implementation class Approve
  */
-@WebServlet("/login")
-public class Login extends HttpServlet {
+@WebServlet("/approve")
+public class Approve extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Login() {
+    public Approve() {
         super();
     }
 
@@ -38,7 +37,7 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		handleRequest(request, response);
+		handleRequest(request, response);	
 	}
 
 	/**
@@ -51,13 +50,13 @@ public class Login extends HttpServlet {
 	/**
 	 * 	
 	 * Handles an HTTP request.
-	 * Verify user data and log him in.
+	 * Approve Review.
 	 * <p>
 	 * <b>Used methods:</b>
 	 * <br/>
-	 * <dd>{@link #get(User)} - to get user data from the database if he exist.</dd>
+	 * <dd>{@link #get(Review)} - to get Review data from the database if he exist.</dd>
 	 * <br/>
-	 * <dd>{@link #updateUserStatus(HttpSession)} - update the user status to Online.</dd>
+	 * <dd>{@link #updateReviewApproved(Review)} - update the review approve to true.</dd>
 	 * @param request Http request
 	 * @param response Http response
 	 * @throws ServletException
@@ -67,39 +66,37 @@ public class Login extends HttpServlet {
 	 */
 	private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Gson gson = new GsonBuilder().create();
-		// Convert JSON object from request input to User object
-		User user = gson.fromJson(request.getReader(), User.class);
+		// Convert JSON object from request input to Review object
+		Review review = gson.fromJson(request.getReader(), Review.class);
 		// Connect to database
-		// Get the user from Database (if exists)
-		User registered = get(user);
+		// Get the Review from Database (if exists)
+		Review reviewFromDb = get(review);
 		// Prepare a JSON to be forwarded to a new servlet or returned in the response
 		PrintWriter out = response.getWriter();
 		response.setContentType("application/json; charset=UTF-8");
 		String data;
-		// Write user data to the response of type JSON
-		if (registered != null) {
-			HttpSession session = request.getSession();
-			registered.setStatus(true);
-			session.setAttribute("user", registered);
-			request.setAttribute("httpSession", session);
-			String jsonUser = gson.toJson(registered, User.class);
+		// Write Review data to the response of type JSON
+		if (reviewFromDb != null) {
+			
+			reviewFromDb.setApproved(true);
+			String jsonReview = gson.toJson(reviewFromDb, Review.class);
 			data = "{"
 				+ 		"\"status\": \"success\","
 				+ 		"\"route\": \"messages\","
 				+ 		"\"notification\": {"
 				+ 			"\"selector\": \".login-notification\","
-				+ 			"\"message\": \"Logged in successfully\""
+				+ 			"\"message\": \"Review Approved successfully\""
 				+ 		"},"
-				+ 		"\"user\": "
-				+			jsonUser
+				+ 		"\"review\": "
+				+			jsonReview
 				;
 
 			request.setAttribute("data", data + ",");
-			session.setAttribute("data", data + ",");
-			request.setAttribute("user", registered);
+
+			request.setAttribute("review", reviewFromDb);
 			request.getRequestDispatcher("/messages").forward(request, response);
 			data += "}";
-			updateUserStatus(session);
+			updateReviewApproved(reviewFromDb);
 		// Write "failure" status to the response
 		} else {
 			data = "{"
@@ -107,7 +104,7 @@ public class Login extends HttpServlet {
 				+ 		"\"route\": \"login\","
 				+ 		"\"notification\": {"
 				+ 			"\"selector\": \".login-notification\","
-				+ 			"\"message\": \"Incorrect username and/or password\""
+				+ 			"\"message\": \"Incorrect review id\""
 				+ 		"}"
 				+ 	"}"
 				;
@@ -117,38 +114,34 @@ public class Login extends HttpServlet {
 		out.close();
 	}
 	/**
-	 * A method to get the user data.
-	 * If the user doesn't exist,or the password is incorrect, return null.
-	 * @param user {@link gotcha.model.User} object that contain the user name and password.
-	 * @return {@link gotcha.model.User} object that contain required User's 
-	 * data in case he exist and his password is correct, else null.
+	 * A method to get the Review data.
+	 * If the Review doesn't exist return null.
+	 * @param user {@link booksForAll.models.Review} object that contain the review model.
+	 * @return {@link booksForAll.models.Review} object that contain required Review's 
+	 * data in case he exist, else null.
 	 */
-	private User get (User user) {
+	private Review get (Review review) {
 		try {
 			Connection connection = Globals.database.getConnection();
-			PreparedStatement statement = connection.prepareStatement(Globals.SELECT_USER_BY_USERNAME_AND_PASSWORD);
+			PreparedStatement statement = connection.prepareStatement(Globals.SELECT_REVIEW_BY_ID);
 			
-			statement.setString(1, user.getUserName());
-			statement.setString(2, user.getPassword());
+			statement.setInt(1, review.getId());
 			
 			ResultSet resultSet = statement.executeQuery();
 			
-			// The user exists in our system, get his data
+			// The Review exists in our system, get his data
 			if (resultSet.next()) {
-				User registered = new User();
-				registered.setUserName(resultSet.getString("USERNAME"));
-				registered.setPassword(resultSet.getString("PASSWORD"));
-				registered.setDescription(resultSet.getString("DESCRIPTION"));
-				registered.setNickName(resultSet.getString("NICKNAME"));
-				registered.setPhotoUrl(resultSet.getString("PHOTO_URL"));
-				registered.setStatus(resultSet.getBoolean("STATUS"));
-				registered.setIsAdmin(resultSet.getBoolean("IS_ADMIN"));
-				registered.setEmail(resultSet.getString("EMAIL"));
-				registered.setTelephone(resultSet.getString("TELEPHONE"));
+				Review reviewFromDb = new Review();
+				reviewFromDb.setId(resultSet.getInt("ID"));
+				reviewFromDb.setUserName(resultSet.getString("USERNAME"));			
+				reviewFromDb.setBookIsbn(resultSet.getString("BOOK_ISBN"));
+				reviewFromDb.setText(resultSet.getString("TEXT"));
+				reviewFromDb.setWriteDate(resultSet.getDate("WRITE_DATE"));
+				reviewFromDb.setApproved(resultSet.getBoolean("APPROVED"));
 				
 				statement.close();
 				connection.close();
-				return registered;
+				return reviewFromDb;
 			// He is not existing, return null
 			} else {
 				statement.close();
@@ -161,21 +154,19 @@ public class Login extends HttpServlet {
 			return null;
 		}
 	}
+	
 	/**
-	 * A method to update the user status to active after verifying his name and password.
-	 * @param session The session of the user who want to log in.
+	 * A method to update the Review APPROVED to true.
 	 */
-	private void updateUserStatus (HttpSession session) {
-		User user = (User)session.getAttribute("user");
-		
-		boolean status = true;
+	private void updateReviewApproved (Review review) {
+		boolean approve = true;
 		
 		try {
 			Connection connection = Globals.database.getConnection();
-			PreparedStatement statement = connection.prepareStatement(Globals.UPDATE_USER_STATUS);
+			PreparedStatement statement = connection.prepareStatement(Globals.UPDATE_REVIEW_APPROVED);
 			
-			statement.setBoolean(1, status);
-			statement.setString(2, user.getUserName());
+			statement.setBoolean(1, approve);
+			statement.setInt(2, review.getId());
 			statement.executeUpdate();
 			
 			connection.commit();
