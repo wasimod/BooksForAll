@@ -29,6 +29,16 @@ public class Globals {
 	public static final String INSERT_REVIEW = "INSERT INTO REVIEWS (USERNAME, BOOK_ISBN, TEXT, WRITE_DATE, APPROVED) VALUES (?,?,?,?,?)";
 	
 	/**
+	 * PURCHASE Table predefined statement.
+	 */
+	public static final String INSERT_PURCHASE = "INSERT INTO PURCHASES (USERNAME, BOOK_ISBN) VALUES (?,?)";
+	
+	/**
+	 * LIKE Table predefined statement.
+	 */
+	public static final String INSERT_LIKE = "INSERT INTO LIKE (USERNAME, BOOK_ISBN) VALUES (?,?)";
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
 	 * Messages Table predefined statement.
 	 */
 	public static final String SELECT_ALL_MESSAGES = "SELECT * FROM MESSAGES",
