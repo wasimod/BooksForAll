@@ -1,0 +1,1 @@
+var booksForAll = angular.module('booksForAll', []);
