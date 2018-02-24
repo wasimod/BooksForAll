@@ -1,4 +1,4 @@
-booksForAll.controller('mainController', ['$scope', '$rootScope', '$location', '$http', '$filter', function () {
+booksForAll.controller('mainController', ['$scope', '$rootScope', '$location', '$http', '$filter', function ($scope, $rootScope, $location, $http, $filter) {
 	$rootScope.route = 'login';
 
 	$rootScope.$watch(function () {
@@ -10,7 +10,7 @@ booksForAll.controller('mainController', ['$scope', '$rootScope', '$location', '
 }])
 
 // Login controller
-.controller('loginController', ['$scope', '$rootScope', '$timeout', '$http', 'notifyService', function($scope, $rootScope, $timeout, $http, notifyService) {
+.controller('loginController', ['$scope', '$rootScope', '$timeout', '$http', function($scope, $rootScope, $timeout, $http) {
 	
 	$("body").css({
 		"background": "url(assets/images/login.png)",
@@ -51,7 +51,7 @@ booksForAll.controller('mainController', ['$scope', '$rootScope', '$location', '
 }])
 
 // Register controller
-.controller('registerController', ['$scope', '$rootScope', '$timeout', '$http', '$filter', 'notifyService', function($scope, $rootScope, $timeout, $http, $filter, notifyService) {
+.controller('registerController', ['$scope', '$rootScope', '$timeout', '$http', '$filter', function($scope, $rootScope, $timeout, $http, $filter) {
 	// Scope variables
 	$scope.disabled = true;
 
