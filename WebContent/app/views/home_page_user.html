@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Welcome - books for all</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" type="text/css" href="home_page_user.css">
+  <script type="text/javascript" src="home_page_user.js"></script>
+
+  <script type="text/javascript" src="payment_page.js"></script>
+
+  <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+  <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+  
+</head>
+
+<body>
+  <!--NAv Bar-->
+  <div class="nav_bar">
+    <a href="home_page_user.html">Home</a>
+    <a href="#user_ebooks">My ebooks</a>
+    <div class="dropdown_bar">
+      <!--<a  style="float: right;" href="#about">account</a>-->
+      <button class="dropbtn_bar">account</button>
+      <div class="dropdown-content_bar">
+        <a href="#">profile</a>
+        <a href="#">log out</a>
+      </div>
+    </div>
+    <a style="float: right;" href="help_page.html">Help</a>
+    <a style="float: right;" href="contact_us_page.html">Contact us</a>
+  </div>
+
+  <!--Side Bar-->
+  <div class="side_bar">
+    <img src="27294634_734455720085682_1638583906_n11.png">
+    <p> welcome user </p>
+    <p> category:</p>
+    <a href="#children's books">Children's books</a>
+    <a href="#classics">Classics</a>
+    <a href="#fiction">Fiction</a>
+    <a href="#history">History</a>
+    <a href="#science">Science</a>
+  </div>
+
+<!--Main Page-->
+<div class="main_page">
+ <img src="home_opage_banner8.jpg" style="width: 1050px; height: 210px;"><br>
+  <table>
+    <tr>
+        <th><p id="children's books" style="font-size: 28px; padding-top: 10px; padding-left: 10px;"> Children's books</p></th>
+    </tr>
+
+    <tr>
+      <td><!--book 1-The Heroes-->
+        <div class="book_display"> 
+          <img src="WebContent\book covers\the_heroes.jpg">
+          <p class="title1" id="book1-title">The Heroes</p><br>
+          <p class="author1">by Charles Kingsley</p>
+          <p class="discription1"><b>description:</b>Stories of the heroes of ancient Greece, told in fine poetic prose. Includes accounts of Perseus who slew Medusa the Gorgon, Jason who sought the Golden Fleece, and Theseus who slew the Minotaur. By preserving the Greek spirit in the retelling of these myths, Kingsley gives us plain strength and seriousness, courage, steadfastness, and beauty. Dozens of attractive illustrations by T. H. Robinson enliven the text.  Ages 9-12<br>
+          <b>price:</b> 5.00$</p>
+
+          <!----BUY---->
+          <a href="payment_page.html"><button class="button" id="buy" onclick="payment_info('The Heroes by Charles Kingsley','5.00$')" style="vertical-align:middle"><span>buy </span></button></a><br>
+
+
+         <!---LIKES---->
+         <div class="dropdown">
+          <button class="dropbtn">likes</button>
+            <div class="dropdown-content">
+              <a href="#">Link 1</a>
+              <a href="#">Link 2</a>
+              <a href="#">Link 3</a>
+              <a href="#">Link 1</a>
+              <a href="#">Link 2</a>
+              <a href="#">Link 3</a>
+              <a href="#">Link 1</a>
+              <a href="#">Link 2</a>
+              <a href="#">Link 3</a>
+              <a href="#">Link 1</a>
+              <a href="#">Link 2</a>
+              <a href="#">Link 3</a>
+            </div>
+          </div>
+
+          <!-----reviews------>
+          <button class="button" id="more_info" onclick="openReviews()" style="vertical-align:middle"><span>read reviews </span></button>
+          <div id="book_review">fuckingfuck fucking bitch</div>
+          
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td><!--book 2-Celtic Fairy Tales-->
+        <div class="book_display"> 
+          <img src="WebContent\book covers\celtic_fairy_tales.jpg">
+          <p class="title1">Celtic Fairy Tales</p><br>
+          <p class="author1">by Joseph Jacobs</p>
+          <p class="discription1"><b>description:</b> The two volumes of Celtic folk tales collected by the leading British folklorist Joseph Jacobs (1854–1916)  introduced the children of the world to the special vision and color, the unique magic of the Celtic folk imagination.
+          The 26 stories of wonderful characters, the curses and hexes, the broken promises and granted wishes are accompanied by eight full-page plates,and decorated capitals and endpieces that help make this book the charming one that generations of youngsters have proclaimed it to be. <br>
+          <b>price:</b> 9.00$</p>
+          <a href="book2_info.html"><button class="button" id="more_info" style="vertical-align:middle"><span>more info </span></button></a>
+          <a href="book2_buy.html"><button class="button" id="buy" style="vertical-align:middle"><span>buy </span></button></a>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td><!--book 3-Tom Brown's School Days-->
+        <div class="book_display">
+          <img src="WebContent\book covers\tom_browns_school.jpg">
+          <p class="title1">Tom Brown's School Days</p><br>
+          <p class="author1">by Thomas Hughes</p>
+          <p class="discription1"><b>description:</b>One of the classics of English children's literature, and one of the earliest books written specifically for boys, this novel's steady popularity has given it an influence well beyond the upper middle-class world that it describes. It tells a story central to an understanding of Victorian life, but its freshness helps to distinguish it from the narrow schoolboy adventures that it later inspired. The book includes an introduction and notes by Andrew Sanders.<br>
+          <b>price:</b> <del style="color: red;">12.00$</del> 8.00$</p>
+          <a href="book3_info.html"><button class="button" id="more_info" style="vertical-align:middle"><span>more info </span></button></a>
+          <a href="book3_buy.html"><button class="button" id="buy" style="vertical-align:middle"><span>buy </span></button></a>
+        </div>
+      </td>
+    </tr>
+  </table>
+    
+  <table>
+    <tr>
+        <th><p id="classics" style="font-size: 28px; padding-top: 10px; padding-left: 10px;"> Classics</p></th>
+    </tr>
+    
+    <tr>
+      <td><!--book 4-Georgics-->
+        <div class="book_display">
+          <img src="WebContent\book covers\Virgil.jpg">
+          <p class="title1">Georgics -(Latin)</p><br>
+          <p class="author1">by Virgil</p>
+          <p class="discription1"><b>description:</b>The Georgics” (Gr: “Georgicon”) is a didactic poem, in the tradition of Hesiod, by the Roman poet Vergil (Virgil). It was Vergil’s second major work, published in 29 BCE, after “The Bucolics” (“Eclogues”), and the ostensible subject of the verses is rural life and farming. Part farming manual, part hymn of praise, part allegory, it contains some of Vergil's finest descriptive writing, with patriotic overtones and rich mythological allusions.<br>
+          <b>price:</b> 10.00$</p>
+          <a href="book4_info.html"><button class="button" id="more_info" style="vertical-align:middle"><span>more info </span></button></a>
+          <a href="book4_buy.html"><button class="button" id="buy" style="vertical-align:middle"><span>buy </span></button></a>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td><!--book5-horace-->
+        <div class="book_display">
+          <img src="WebContent\book covers\horace.jpg">
+          <p class="title1">Odes and Epodes</p><br>
+          <p class="author1">by Horace</p>
+          <p class="discription1"><b>description:</b>The poetry of Horace (born 65 BCE) is richly varied, its focus moving between public and private concerns, urban and rural settings, Stoic and Epicurean thought. Here is a new Loeb Classical Library edition of the great Roman poet's Odes and Epodes, a fluid translation facing the Latin text.
+          Horace took pride in being the first Roman to write a body of lyric poetry. For models he turned to Greek lyric, especially to the poetry of Alcaeus, Sappho, and Pindar; but his 
+          poems are set in a Roman context. <br>
+          <b>price:</b> 7.00$</p>
+          <a href="book5_info.html"><button class="button" id="more_info" style="vertical-align:middle"><span>more info </span></button></a>
+          <a href="book5_buy.html"><button class="button" id="buy" style="vertical-align:middle"><span>buy </span></button></a>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+
+  <table>
+    <tr>
+        <th><p id="fiction" style="font-size: 28px; padding-top: 10px; padding-left: 10px;"> Fiction</p></th>
+    </tr>
+    
+    <tr>
+      <td><!--book6-Moby Dick by Herman Melville-->
+        <div class="book_display">
+          <img src="WebContent\book covers\Moby_Dick.jpg">
+          <p class="title1">Moby Dick</p><br>
+          <p class="author1">by Herman Melville</p>
+          <p class="discription1"><b>description:</b>Moby-Dick is the story of an eerily compelling madman pursuing an unholy war against a creature as vast and dangerous and unknowable as the sea itself. But more than just a novel of adventure, more than an encyclopaedia of whaling lore and legend, the book can be seen as part of its author's lifelong meditation on America. Written with wonderfully redemptive humour, Moby-Dick is also a profound inquiry into character, faith, and the nature of perception.<br>
+          <b>price:</b> 15.00$</p>
+          <a href="book6_info.html"><button class="button" id="more_info" style="vertical-align:middle"><span>more info </span></button></a>
+          <a href="book6_buy.html"><button class="button" id="buy" style="vertical-align:middle"><span>buy </span></button></a>
+        </div>
+      </td>
+    </tr>
+
+
+    <tr>
+      <td><!--book7-The Call of the Wild-->
+        <div class="book_display">
+          <img src="WebContent\book covers\London.jpg">
+          <p class="title1">The Call of the Wild</p><br>
+          <p class="author1">by Jack London</p>
+          <p class="discription1"><b>description:</b>Life is good for Buck in Santa Clara Valley, where he spends his days eating and sleeping in the golden sunshine. But one day a treacherous act of betrayal leads to his kidnap, and he is forced into a life of toil and danger. Dragged away to be a sledge dog in the harsh and freezing cold Yukon, Buck must fight for his survivial. Can he rise above his enemies and become the master of his realm once again?<br>
+          <b>price:</b> 12.00$</p>
+          <a href="book7_info.html"><button class="button" id="more_info" style="vertical-align:middle"><span>more info </span></button></a>
+          <a href="book7_buy.html"><button class="button" id="buy" style="vertical-align:middle"><span>buy </span></button></a>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+
+
+  <table>
+    <tr>
+        <th><p id="history" style="font-size: 28px; padding-top: 10px; padding-left: 10px;"> History</p></th>
+    </tr>
+
+    <tr>
+      <td><!--book8-Chaldea by Zénaïde A. Ragozin-->
+        <div class="book_display">
+          <img src="WebContent\book covers\chaldea.jpg">
+          <p class="title1">Chaldea <font size="2px">From the Earliest Times to the Rise of Assyria</font> </p><br>
+          <p class="author1">by Zénaïde A. Ragozin</p>
+          <p class="discription1"><b>description:</b>This work has been selected by scholars as being culturally important, and is part of the knowledge base of civilization as we know it. This work was reproduced from the original artifact, and remains as true to the original work as possible. Therefore, you will see the original copyright references, library stamps (as most of these works have been housed in our most important libraries around the world), and other notations in the work. <br>
+          <b>price:</b> 20.00$</p>
+          <a href="book8_info.html"><button class="button" id="more_info" style="vertical-align:middle"><span>more info </span></button></a>
+          <a href="book8_buy.html"><button class="button" id="buy" style="vertical-align:middle"><span>buy </span></button></a>
+        </div>
+      </td>
+    </tr>
+
+    
+    <tr>
+      <td><!--book9-Pagan and Christian Rome by Rodolfo Amedeo Lanciani-->
+        <div class="book_display">
+          <img src="WebContent\book covers\Pagan.jpg">
+          <p class="title1">Pagan and Christian Rome</font> </p><br>
+          <p class="author1">by Rodolfo Amedeo Lanciani</p>
+          <p class="discription1"><b>description:</b>the book contains the transformation of Rome from a Pagan into a Christian City, Pagan Shrines and Temples, Christian Churches, Imperial Tombs, Papal Tombs, Pagan Cemetries and Christian Cemetries. <br>
+          <b>price:</b> 18.00$</p>
+          <a href="book9_info.html"><button class="button" id="more_info" style="vertical-align:middle"><span>more info </span></button></a>
+          <a href="book9_buy.html"><button class="button" id="buy" style="vertical-align:middle"><span>buy </span></button></a>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+        <th><p id="science" style="font-size: 28px; padding-top: 10px; padding-left: 10px;"> Science</p></th>
+    </tr>
+
+    <tr>
+      <td><!--book10-Are the Planets Inhabited- by E. Walter Maunder. Walter Maunder-->
+        <div class="book_display">
+          <img src="WebContent\book covers\planet.jpg">
+          <p class="title1">Are the Planets Inhabited?</font> </p><br>
+          <p class="author1"> by E. Walter Maunder. Walter Maunder</p>
+         <p class="discription1"><b>description:</b>the first thought that men had concerning the heavenly bodies was an obvious one: they were lights. There was a greater light to rule the day; a lesser light to rule the night; and there were the stars also.
+          In those days there seemed an immense difference between the earth upon which men stood, and the bright objects that shone down upon it from the heavens above. The earth seemed to be vast, dark, and motionless; the celestial lights seemed to be small, and moved, and shone.<br>
+          <b>price:</b> 13.00$</p>
+          <a href="book10_info.html"><button class="button" id="more_info" style="vertical-align:middle"><span>more info </span></button></a>
+          <a href="book10_buy.html"><button class="button" id="buy" style="vertical-align:middle"><span>buy </span></button></a>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+  
+
+</body>
+</html>

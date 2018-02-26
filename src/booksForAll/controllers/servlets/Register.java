@@ -79,7 +79,7 @@ public class Register extends HttpServlet {
 			String jsonUser = gson.toJson(user, User.class);
 			data = "{"
 				+ 		"\"status\": \"success\","
-				+ 		"\"route\": \"messages\","
+				+ 		"\"route\": \"home_page_user\","
 				+ 		"\"notification\": {"
 				+ 			"\"selector\": \".register-notification\","
 				+ 			"\"message\": \"Registered successfully\""
@@ -90,7 +90,7 @@ public class Register extends HttpServlet {
 	
 			request.setAttribute("data", data + ",");
 			session.setAttribute("data", data + ",");
-			request.getRequestDispatcher("/messages").forward(request, response);
+			request.getRequestDispatcher("/home_page_user").forward(request, response);
 			data += "}";
 		} else {
 			data = "{"
@@ -121,14 +121,14 @@ public class Register extends HttpServlet {
 			
 			statement.setString(1, user.getUserName());
 			statement.setString(2, user.getPassword());
-			statement.setBoolean(3, user.getIsAdmin());
+			statement.setBoolean(3,false);
 			statement.setString(4, user.getNickName());
 			statement.setString(5,user.getEmail());
 			statement.setString(6,user.getTelephone());
 			statement.setString(7,user.getAddress());
 			statement.setString(8, user.getDescription());
 			statement.setString(9, user.getPhotoUrl());
-			statement.setBoolean(10, user.getStatus());
+			statement.setBoolean(10, true);
 			
 			rows = statement.executeUpdate();
 			connection.commit();

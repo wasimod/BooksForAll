@@ -1,3 +1,4 @@
+// Main application controller
 booksForAll.controller('mainController', ['$scope', '$rootScope', '$location', '$http', '$filter', function ($scope, $rootScope, $location, $http, $filter) {
 	$rootScope.route = 'login';
 
@@ -13,7 +14,7 @@ booksForAll.controller('mainController', ['$scope', '$rootScope', '$location', '
 .controller('loginController', ['$scope', '$rootScope', '$timeout', '$http', function($scope, $rootScope, $timeout, $http) {
 	
 	$("body").css({
-		"background": "url(assets/images/login.png)",
+		"background": "url(assets/images/login.jpg)",
 		"background-size": "cover"
 	});
 
@@ -72,9 +73,9 @@ booksForAll.controller('mainController', ['$scope', '$rootScope', '$location', '
 			"NickName": $scope.nickname,
 			"description": $scope.description,
 			"photoUrl": $scope.photoUrl !== undefined ? $scope.photoUrl : "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSMyKQ_ZaKgbgQ6PE--NyftpawhbFDuv0lIZAslbH_o5QVS3KY9wHo87AqxyQ",
-			"address": "Kafr Kanna",
-			"email": "a.hakrush@gmail.com",
-			"telephone": "0526932415"
+			"address": $scope.address,
+			"email": $scope.email,
+			"telephone": $scope.telephone
 		};
 
 		$http({
@@ -145,4 +146,9 @@ booksForAll.controller('mainController', ['$scope', '$rootScope', '$location', '
 			$scope.validNickname = "";
 		}
 	};
+}])
+
+.controller('',[,function(){
+	
+	
 }])

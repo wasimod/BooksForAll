@@ -85,7 +85,7 @@ public class Login extends HttpServlet {
 			String jsonUser = gson.toJson(registered, User.class);
 			data = "{"
 				+ 		"\"status\": \"success\","
-				+ 		"\"route\": \"messages\","
+				+ 		"\"route\": \"home_page_user\","
 				+ 		"\"notification\": {"
 				+ 			"\"selector\": \".login-notification\","
 				+ 			"\"message\": \"Logged in successfully\""
@@ -97,7 +97,7 @@ public class Login extends HttpServlet {
 			request.setAttribute("data", data + ",");
 			session.setAttribute("data", data + ",");
 			request.setAttribute("user", registered);
-			request.getRequestDispatcher("/messages").forward(request, response);
+			request.getRequestDispatcher("/home_page_user").forward(request, response);
 			data += "}";
 			updateUserStatus(session);
 		// Write "failure" status to the response
